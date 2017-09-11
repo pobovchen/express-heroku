@@ -9,8 +9,9 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
+// /query-address?address=NTU
 app.get('/query-address', function (req, res) {
-  let address = 'National Taiwan University'
+  let address = req.query.address
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}`
   request(url,
     function (error, response, body) {
