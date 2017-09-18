@@ -1,11 +1,29 @@
 const express = require('express')
 const request = require('request')
 const getAddress = require('./get-address')
+const path = require('path')
 
 const app = express()
 const port = process.env.PORT || 3000
 
 app.set('view engine', 'ejs')
+
+app.use('/static', express.static(
+  path.resolve(__dirname, 'static')
+))
+
+app.set('history', [{
+  address: 'NTU',
+  result:{
+    formatted_address:'羅斯福路四段一號',
+    lat:'123',
+    lng:'456',
+  }
+}])
+
+app.get('/history', function(req, res){
+  res.send(app.get('history'))
+})
 
 app.get('/home', function (req, res) {
   res.render('home', {
@@ -15,7 +33,9 @@ app.get('/home', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  res.sendfile(
+    path.resolve(__dirname,'views/index.html')
+  )
 })
 
 // /query-address?address=NTU
@@ -27,7 +47,12 @@ app.get('/query-address', function (req, res) {
       console.log('error:', error);
       console.log('statusCode:', response.statusCode);
       console.log('body:', body);
-      res.send(getAddress(JSON.parse(body)))
+      let result = getAddress(JSON.parse(body))
+      res.send(result)
+
+      let history = app.get('history');
+      history.push({address, result})
+      app.set('history', history)
     });
 })
 
