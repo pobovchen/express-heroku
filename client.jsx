@@ -16,11 +16,12 @@ getHistory();
 
 class App extends React.Component {
   render() {
-    return
+    return(
     <div>
       <input type="text" placeholder="search..."></input>
       <button>search</button>
-    </div>;
+    </div>
+    )
   }
 }
 

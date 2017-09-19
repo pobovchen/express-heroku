@@ -1,7 +1,8 @@
+const path = require('path')
 const express = require('express')
 const request = require('request')
 const getAddress = require('./get-address')
-const path = require('path')
+
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -33,7 +34,7 @@ app.get('/home', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-  res.sendfile(
+  res.sendFile(
     path.resolve(__dirname,'views/index.html')
   )
 })
