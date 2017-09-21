@@ -57,7 +57,7 @@ app.get('/query-address', function (req, res) {
     });
 })
 
-const getPlaceInfoByGoogle = (location, type) => {
+const getPlaceByGoogle = (location, type) => {
   let promise = new Promise((resolve, reject) => {
     let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
     let options = {
@@ -78,7 +78,7 @@ const getPlaceInfoByGoogle = (location, type) => {
   return promise;
 }
 
-const getPlaceInfoByFacebook = (center) => {
+const getPlaceByFacebook = (center) => {
   let promise = new Promise((resolve, reject) => {
     let url = 'https://graph.facebook.com/v2.10/search'
     let options = {
@@ -103,8 +103,8 @@ const getPlaceInfoByFacebook = (center) => {
 app.get('/query-place', function (req, res) {
   let location = req.query.location
   let type = req.query.type
-  let promise1 = getPlaceInfoByGoogle(location, type)
-  let promise2 = getPlaceInfoByFacebook(location)
+  let promise1 = getPlaceByGoogle(location, type)
+  let promise2 = getPlaceByFacebook(location)
   Promise.all([promise1, promise2]).then((result) => {
     res.send({
       google: JSON.parse(result[0]),
