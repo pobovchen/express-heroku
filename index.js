@@ -41,8 +41,9 @@ app.get('/', function (req, res) {
 
 // /query-address?address=NTU
 app.get('/query-address', function (req, res) {
-  let address = req.query.address
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}`
+  let address = req.query.address 
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(address)}&language=zh-TW&key=AIzaSyDxhmUgV4o14YcieA2-ucf9GBBIaYOnbvs&`
+  //encodeURI(address) 轉換中文網址
   request(url,
     function (error, response, body) {
       console.log('error:', error);
